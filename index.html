@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0f1012; /* Derin koyu füme */
-            --card-bg: #18191c; /* Kart arka planı */
+            --bg-color: #0f1012;
+            --card-bg: #18191c;
             --card-border: #27292d;
-            --accent: #f59e0b; /* Asil sarı vurgu rengi */
+            --accent: #f59e0b;
             --accent-hover: #d97706;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
@@ -32,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* İhtişamlı Açılış Ekranı (Splash Screen) */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -94,7 +93,6 @@
             60% { transform: translateY(-4px); }
         }
 
-        /* Ana İçerik Konteyner */
         .main-wrapper {
             max-width: 1200px;
             margin: 0 auto;
@@ -160,7 +158,6 @@
             color: var(--accent);
         }
 
-        /* Geri Sayım Kutuları */
         .countdown-item {
             margin-bottom: 15px;
             background: rgba(255, 255, 255, 0.015);
@@ -188,7 +185,6 @@
             font-weight: 600;
         }
 
-        /* Ders Programı Tablosu */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -237,7 +233,6 @@
             color: var(--text-muted);
         }
 
-        /* Hızlı Erişim Linkleri */
         .links-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -277,7 +272,6 @@
             color: var(--accent);
         }
 
-        /* Sosyal Medya */
         .social-container {
             display: flex;
             gap: 15px;
@@ -309,7 +303,6 @@
 </head>
 <body>
 
-    <!-- İhtişamlı Açılış Ekranı -->
     <div id="splash-screen" onclick="enterSite()">
         <div class="splash-content">
             <h1>Hoş Geldin, Efe</h1>
@@ -318,7 +311,6 @@
         </div>
     </div>
 
-    <!-- Ana Panel -->
     <div class="main-wrapper">
         <header>
             <h1>Efe Mansuroğlu</h1>
@@ -326,12 +318,11 @@
         </header>
 
         <div class="grid-container">
-            <!-- Özel Günler & Geri Sayım -->
             <div class="card">
                 <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
                 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimle İlk Günümüz ❤️ (8 Mart 2026)</div>
+                    <div class="countdown-title">Sevgilimle İlk Yıl Dönümü ❤️ (8 Mart)</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
@@ -341,7 +332,6 @@
                 </div>
             </div>
 
-            <!-- Sosyal Medya & İletişim -->
             <div class="card">
                 <h2><i class="fa-solid fa-share-nodes"></i> Sosyal Medya & Profil</h2>
                 <div style="display: flex; flex-direction: column; justify-content: center; height: calc(100% - 50px); gap: 20px;">
@@ -354,7 +344,6 @@
                 </div>
             </div>
 
-            <!-- Ders Programı -->
             <div class="card full-width">
                 <h2><i class="fa-solid fa-graduation-cap"></i> Haftalık Ders Programı (Bilişim Sistemleri ve Teknolojileri)</h2>
                 <div class="table-responsive">
@@ -580,7 +569,6 @@
                 </div>
             </div>
 
-            <!-- Hızlı Erişim -->
             <div class="card full-width">
                 <h2><i class="fa-solid fa-bolt"></i> Hızlı Erişim</h2>
                 <div class="links-grid">
@@ -613,27 +601,28 @@
         function updateCountdowns() {
             const now = new Date();
 
-            // 1. Sevgili Olma Tarihi (Başlangıç: 8 Mart 2026)
-            // Gelecek ilk 8 Mart'a kalan süreyi hesapla
-            let sevgilIilkGundun = new Date(now.getFullYear(), 2, 8, 0, 0, 0); // Ay 2 = Mart
-            if (now > sevgilIilkGundun) {
-                sevgilIilkGundun.setFullYear(now.getFullYear() + 1);
+            // 1. Sevgili Olma Yıldönümü (8 Mart -> Daima bir sonraki 8 Mart'a sayar)
+            let sevgilikTarihi = new Date(now.getFullYear(), 2, 8, 0, 0, 0); // Mart = 2
+            if (now > sevgilikTarihi) {
+                sevgilikTarihi.setFullYear(now.getFullYear() + 1);
             }
             
-            // 2. Sevgilinin Doğum Günü (26 Eylül)
-            let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // Ay 8 = Eylül
+            // 2. Sevgilinin Doğum Günü (26 Eylül -> Daima bir sonraki 26 Eylül'e sayar)
+            let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // Eylül = 8
             if (now > dogumGunu) {
                 dogumGunu.setFullYear(now.getFullYear() + 1);
             }
 
             const events = [
-                { id: 'timer-sevgili', date: sevgilIilkGundun },
+                { id: 'timer-sevgili', date: sevgilikTarihi },
                 { id: 'timer-dogum', date: dogumGunu }
             ];
 
             events.forEach(ev => {
                 const diff = ev.date - now;
                 const element = document.getElementById(ev.id);
+
+                if(!element) return;
 
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
