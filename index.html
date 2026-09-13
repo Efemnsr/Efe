@@ -331,12 +331,12 @@
                 <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
                 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimle İlk Günümüz ❤️ (8 Mart 2025)</div>
+                    <div class="countdown-title">Sevgilimle İlk Günümüz ❤️ (8 Mart 2026)</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂 (26 Eylül 2006)</div>
+                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂 (26 Eylül)</div>
                     <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
                 </div>
             </div>
@@ -610,31 +610,30 @@
             }, 800);
         }
 
-        const events = [
-            { id: 'timer-sevgili', date: new Date(2025, 2, 8, 0, 0, 0) }, 
-            { id: 'timer-dogum', date: new Date(2026, 8, 26, 0, 0, 0) }    
-        ];
-
         function updateCountdowns() {
             const now = new Date();
 
-            events.forEach((ev, index) => {
-                let targetDate = new Date(ev.date);
-                
-                if (index === 1 && targetDate < now) {
-                    targetDate.setFullYear(now.getFullYear() + 1);
-                }
+            // 1. Sevgili Olma Tarihi (Başlangıç: 8 Mart 2026)
+            // Gelecek ilk 8 Mart'a kalan süreyi hesapla
+            let sevgilIilkGundun = new Date(now.getFullYear(), 2, 8, 0, 0, 0); // Ay 2 = Mart
+            if (now > sevgilIilkGundun) {
+                sevgilIilkGundun.setFullYear(now.getFullYear() + 1);
+            }
+            
+            // 2. Sevgilinin Doğum Günü (26 Eylül)
+            let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // Ay 8 = Eylül
+            if (now > dogumGunu) {
+                dogumGunu.setFullYear(now.getFullYear() + 1);
+            }
 
-                const diff = targetDate - now;
+            const events = [
+                { id: 'timer-sevgili', date: sevgilIilkGundun },
+                { id: 'timer-dogum', date: dogumGunu }
+            ];
+
+            events.forEach(ev => {
+                const diff = ev.date - now;
                 const element = document.getElementById(ev.id);
-
-                if (diff < 0 && index === 0) {
-                    const passedDiff = now - targetDate;
-                    const pDays = Math.floor(passedDiff / (1000 * 60 * 60 * 24));
-                    const pHours = Math.floor((passedDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    element.innerHTML = `${pDays} gün, ${pHours} saat oldu ❤️`;
-                    return;
-                }
 
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
