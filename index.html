@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efe Mansuroğlu - Şahsi Kontrol Paneli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f1012; /* Derin koyu füme */
+            --card-bg: #18191c; /* Kart arka planı */
+            --card-border: #27292d;
+            --accent: #f59e0b; /* Asil sarı vurgu rengi */
+            --accent-hover: #d97706;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --table-header: #202225;
+            --table-row-hover: #1f2023;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* İhtişamlı Açılış Ekranı (Splash Screen) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1c1e22 0%, #0f1012 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            cursor: pointer;
+        }
+
+        #splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-content {
+            text-align: center;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        .splash-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .splash-content p {
+            color: var(--accent);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .splash-hint {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        /* Ana İçerik Konteyner */
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        @media (min-width: 992px) {
+            .grid-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+        }
+
+        .card h2 i {
+            color: var(--accent);
+        }
+
+        /* Geri Sayım Kutuları */
+        .countdown-item {
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--card-border);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .countdown-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .countdown-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #e5e7eb;
+        }
+
+        .countdown-timer {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Ders Programı Tablosu */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            background-color: var(--table-header);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr:hover {
+            background-color: var(--table-row-hover);
+        }
+
+        .lesson-cell {
+            background: rgba(245, 158, 11, 0.06);
+            border-left: 2px solid var(--accent);
+            padding: 6px 8px;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+
+        .lesson-name {
+            font-weight: 600;
+            color: #f3f4f6;
+        }
+
+        .lesson-loc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Hızlı Erişim Linkleri */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 500px) {
+            .links-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            padding: 16px 10px;
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .quick-link:hover {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .quick-link i {
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        /* Sosyal Medya */
+        .social-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #0f1012;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- İhtişamlı Açılış Ekranı -->
+    <div id="splash-screen" onclick="enterSite()">
+        <div class="splash-content">
+            <h1>Hoş Geldin, Efe</h1>
+            <p>Şahsi Kontrol Paneli Yükleniyor</p>
+            <div class="splash-hint">[ Devam etmek için ekrana tıklayın ]</div>
+        </div>
+    </div>
+
+    <!-- Ana Panel -->
+    <div class="main-wrapper">
+        <header>
+            <h1>Efe Mansuroğlu</h1>
+            <p>Bilişim Sistemleri ve Teknolojileri • Kişisel Sistem</p>
+        </header>
+
+        <div class="grid-container">
+            <!-- Özel Günler & Geri Sayım -->
+            <div class="card">
+                <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
+                
+                <div class="countdown-item">
+                    <div class="countdown-title">Sevgilimle İlk Günümüz ❤️ (8 Mart 2025)</div>
+                    <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
+                </div>
+
+                <div class="countdown-item">
+                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂 (26 Eylül 2006)</div>
+                    <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
+                </div>
+            </div>
+
+            <!-- Sosyal Medya & İletişim -->
+            <div class="card">
+                <h2><i class="fa-solid fa-share-nodes"></i> Sosyal Medya & Profil</h2>
+                <div style="display: flex; flex-direction: column; justify-content: center; height: calc(100% - 50px); gap: 20px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center;">@efedev0x & Profesyonel Bağlantılar:</p>
+                    <div class="social-container">
+                        <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram (@efedev0x)"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ders Programı -->
+            <div class="card full-width">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Haftalık Ders Programı (Bilişim Sistemleri ve Teknolojileri)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Saat</th>
+                                <th>Pazartesi</th>
+                                <th>Salı</th>
+                                <th>Çarşamba</th>
+                                <th>Perşembe</th>
+                                <th>Cuma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:00 - 09:40</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">OLASILIK VE İSTATİSTİK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ YAPILARI VE ALGORİTMALAR</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>09:50 - 10:30</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">OLASILIK VE İSTATİSTİK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ YAPILARI VE ALGORİTMALAR</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>10:40 - 11:20</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">OLASILIK VE İSTATİSTİK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ YAPILARI VE ALGORİTMALAR</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">GENEL MUHASEBE 1</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>11:30 - 12:10</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">OLASILIK VE İSTATİSTİK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ YAPILARI VE ALGORİTMALAR</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">GENEL MUHASEBE 1</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>13:00 - 13:40</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">ÇAĞDAŞ DÜNYA TARİHİ</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">FİNANSAL OKURYAZARLIK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ TABANI SİSTEMLERİ I</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">MANTIK DEVRELERİ</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>13:50 - 14:30</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">ÇAĞDAŞ DÜNYA TARİHİ</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">FİNANSAL OKURYAZARLIK</div>
+                                        <div class="lesson-loc">ED-Z-8 (D:17)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ TABANI SİSTEMLERİ I</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">MANTIK DEVRELERİ</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>14:40 - 15:20</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">İŞ SAĞLIĞI VE GÜVENLİĞİ I</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">VERİ TABANI SİSTEMLERİ I</div>
+                                        <div class="lesson-loc">EL-K3-1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">MANTIK DEVRELERİ</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>15:30 - 16:10</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">İŞ SAĞLIĞI VE GÜVENLİĞİ I</div>
+                                        <div class="lesson-loc">ED-Z-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">İNTERNET PROGRAMCILIĞI</div>
+                                        <div class="lesson-loc">ED-K1-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>16:20 - 17:00</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">İNTERNET PROGRAMCILIĞI</div>
+                                        <div class="lesson-loc">ED-K1-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>17:10 - 17:50</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="lesson-cell">
+                                        <div class="lesson-name">İNTERNET PROGRAMCILIĞI</div>
+                                        <div class="lesson-loc">ED-K1-7</div>
+                                    </div>
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Hızlı Erişim -->
+            <div class="card full-width">
+                <h2><i class="fa-solid fa-bolt"></i> Hızlı Erişim</h2>
+                <div class="links-grid">
+                    <a href="https://www.turkiye.gov.tr" target="_blank" class="quick-link">
+                        <i class="fa-solid fa-landmark"></i> e-Devlet
+                    </a>
+                    <a href="https://github.com/Efemnsr" target="_blank" class="quick-link">
+                        <i class="fa-brands fa-github"></i> GitHub
+                    </a>
+                    <a href="https://chatgpt.com" target="_blank" class="quick-link">
+                        <i class="fa-solid fa-robot"></i> ChatGPT
+                    </a>
+                    <a href="https://open.spotify.com" target="_blank" class="quick-link">
+                        <i class="fa-brands fa-spotify"></i> Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function enterSite() {
+            const splash = document.getElementById('splash-screen');
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 800);
+        }
+
+        const events = [
+            { id: 'timer-sevgili', date: new Date(2025, 2, 8, 0, 0, 0) }, 
+            { id: 'timer-dogum', date: new Date(2026, 8, 26, 0, 0, 0) }    
+        ];
+
+        function updateCountdowns() {
+            const now = new Date();
+
+            events.forEach((ev, index) => {
+                let targetDate = new Date(ev.date);
+                
+                if (index === 1 && targetDate < now) {
+                    targetDate.setFullYear(now.getFullYear() + 1);
+                }
+
+                const diff = targetDate - now;
+                const element = document.getElementById(ev.id);
+
+                if (diff < 0 && index === 0) {
+                    const passedDiff = now - targetDate;
+                    const pDays = Math.floor(passedDiff / (1000 * 60 * 60 * 24));
+                    const pHours = Math.floor((passedDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    element.innerHTML = `${pDays} gün, ${pHours} saat oldu ❤️`;
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                element.innerHTML = `${days} gün, ${hours} saat, ${minutes} dk, ${seconds} sn kaldı`;
+            });
+        }
+
+        setInterval(updateCountdowns, 1000);
+        updateCountdowns();
+    </script>
+</body>
+</html>
