@@ -173,8 +173,14 @@
         .countdown-title {
             font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #e5e7eb;
+        }
+
+        .event-date-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
         .countdown-timer {
@@ -322,12 +328,14 @@
                 <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
                 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimle İlk Yıl Dönümü ❤️ (8 Mart)</div>
+                    <div class="countdown-title">Sevgili Olma Tarihi ❤️</div>
+                    <div class="event-date-info">Başlangıç: 8 Mart 2026</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂 (26 Eylül)</div>
+                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂</div>
+                    <div class="event-date-info">Doğum Tarihi: 26 Eylül</div>
                     <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
                 </div>
             </div>
@@ -601,20 +609,17 @@
         function updateCountdowns() {
             const now = new Date();
 
-            // 1. Sevgili Olma Yıldönümü (8 Mart -> Daima bir sonraki 8 Mart'a sayar)
-            let sevgilikTarihi = new Date(now.getFullYear(), 2, 8, 0, 0, 0); // Mart = 2
-            if (now > sevgilikTarihi) {
-                sevgilikTarihi.setFullYear(now.getFullYear() + 1);
-            }
+            // 1. Sevgili Olma Yıl Dönümüne Kalan Süre (Hedef: 8 Mart 2027)
+            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); // Mart = 2 (0 tabanlı index)
             
-            // 2. Sevgilinin Doğum Günü (26 Eylül -> Daima bir sonraki 26 Eylül'e sayar)
+            // 2. Sevgilinin Doğum Gününe Kalan Süre (Daima gelecek ilk 26 Eylül)
             let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // Eylül = 8
             if (now > dogumGunu) {
                 dogumGunu.setFullYear(now.getFullYear() + 1);
             }
 
             const events = [
-                { id: 'timer-sevgili', date: sevgilikTarihi },
+                { id: 'timer-sevgili', date: sonrakiYilDonumu },
                 { id: 'timer-dogum', date: dogumGunu }
             ];
 
@@ -623,6 +628,11 @@
                 const element = document.getElementById(ev.id);
 
                 if(!element) return;
+
+                if (diff <= 0) {
+                    element.innerHTML = "Bugün!";
+                    return;
+                }
 
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
