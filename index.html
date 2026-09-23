@@ -475,13 +475,13 @@
                 
                 <div class="countdown-item">
                     <div class="countdown-title">Sevgili Olma Tarihi ❤️</div>
-                    <div class="event-date-info">Başlangıç: 8 Mart 2026 (Yıl Dönümüne Kalan)</div>
+                    <div class="event-date-info" id="info-sevgili">Başlangıç: 8 Mart 2026 (Yıl Dönümüne Kalan)</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgilimin Doğum Günü 🎂</div>
-                    <div class="event-date-info">Doğum Tarihi: 26 Eylül</div>
+                    <div class="countdown-title" id="title-dogum">Sevgilimin Doğum Günü 🎂</div>
+                    <div class="event-date-info" id="info-dogum">Doğum Tarihi: 26 Eylül</div>
                     <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
                 </div>
             </div>
@@ -567,6 +567,8 @@
             ["18:00 - 18:40", "-", "-", "-", "-", "DİJİTAL MEDYA<br><span class='lesson-loc'>OSD24</span>"]
         ];
 
+        let currentProfile = 'efe';
+
         function showSelector() {
             const splash = document.getElementById('splash-screen');
             splash.classList.add('fade-out');
@@ -577,6 +579,7 @@
         }
 
         function selectProfile(profile) {
+            currentProfile = profile;
             const selector = document.getElementById('selector-screen');
             selector.classList.remove('active');
             setTimeout(() => {
@@ -586,6 +589,8 @@
 
             const titleEl = document.getElementById('header-title');
             const subtitleEl = document.getElementById('header-subtitle');
+            const dogumTitleEl = document.getElementById('title-dogum');
+            const dogumInfoEl = document.getElementById('info-dogum');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -594,14 +599,20 @@
             if (profile === 'efe') {
                 titleEl.innerText = "Efe Mansuroğlu";
                 subtitleEl.innerText = "Bilişim Sistemleri ve Teknolojileri • Kişisel Sistem";
+                dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
+                dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
                 titleEl.innerText = "Hoş Geldin Prenses ✨";
                 subtitleEl.innerText = "Yönetim Bilişim Sistemleri • Özel Ders Programı";
+                dogumTitleEl.innerText = "Doğum Günüm 🎂";
+                dogumInfoEl.innerText = "Doğum Tarihi: 09 Ağustos";
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
                 subtitleEl.innerText = "Birlikte Yaşam ve Plan Alanı";
+                dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
+                dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
                 activeSchedule = efeSchedule;
             }
 
@@ -628,6 +639,7 @@
                 });
                 tbody.appendChild(tr);
             });
+            updateCountdowns();
         }
 
         function goBackToSelector() {
@@ -642,7 +654,14 @@
         function updateCountdowns() {
             const now = new Date();
             let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); // 8 Mart 2027
-            let dogumGunu = new Date(now.getFullYear(), 8, 9, 0, 0, 0); // 26 Eylül
+            
+            let dogumGunu;
+            if (currentProfile === 'sultan') {
+                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0); // 9 Ağustos (Ağustos = 7)
+            } else {
+                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // 26 Eylül
+            }
+
             if (now > dogumGunu) {
                 dogumGunu.setFullYear(now.getFullYear() + 1);
             }
