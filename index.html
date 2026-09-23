@@ -35,28 +35,31 @@
             position: relative;
         }
 
-        /* Prenses Modu Kayan Arka Plan Yazıları */
+        /* Prenses Modu Kayan Arka Plan Yazıları - Tüm Ekranı Kaplar */
         #princess-bg-ticker {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
             display: none;
-            opacity: 0.05; /* Arka planda hafif ve şık durması için */
+            opacity: 0.05;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .ticker-row {
             white-space: nowrap;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             color: var(--accent);
             text-transform: uppercase;
             animation: tickerScroll 25s linear infinite;
-            margin-bottom: 30px;
+            flex-shrink: 0;
         }
 
         .ticker-row:nth-child(even) {
@@ -373,39 +376,6 @@
             margin-top: 1px;
         }
 
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .quick-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--card-border);
-            padding: 14px 8px;
-            border-radius: 10px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .quick-link:active {
-            background: rgba(245, 158, 11, 0.2);
-            border-color: var(--accent);
-        }
-
-        .quick-link i {
-            font-size: 1.3rem;
-            color: var(--accent);
-        }
-
         .social-container {
             display: flex;
             gap: 15px;
@@ -465,24 +435,25 @@
             .lesson-loc {
                 font-size: 0.8rem;
             }
-            .links-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Prenses Modu Arka Plan Kayan Yazıları -->
+    <!-- Prenses Modu Arka Plan Kayan Yazıları (Tüm Ekranı Kaplar) -->
     <div id="princess-bg-ticker">
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
-        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
     </div>
 
     <div id="splash-screen" onclick="showSelector()">
@@ -571,18 +542,18 @@
             <!-- Hızlı Erişim Kartı (Yalnızca Efe ve Ortak modlarında görünecek) -->
             <div class="card full-width" id="quick-links-card">
                 <h2><i class="fa-solid fa-bolt"></i> Hızlı Erişim</h2>
-                <div class="links-grid">
-                    <a href="https://www.turkiye.gov.tr" target="_blank" class="quick-link">
-                        <i class="fa-solid fa-landmark"></i> e-Devlet
+                <div class="links-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <a href="https://www.turkiye.gov.tr" target="_blank" class="quick-link" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); padding: 14px 8px; border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                        <i class="fa-solid fa-landmark" style="color: var(--accent); font-size: 1.3rem;"></i> e-Devlet
                     </a>
-                    <a href="https://github.com/Efemnsr" target="_blank" class="quick-link">
-                        <i class="fa-brands fa-github"></i> GitHub
+                    <a href="https://github.com/Efemnsr" target="_blank" class="quick-link" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); padding: 14px 8px; border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                        <i class="fa-brands fa-github" style="color: var(--accent); font-size: 1.3rem;"></i> GitHub
                     </a>
-                    <a href="https://chatgpt.com" target="_blank" class="quick-link">
-                        <i class="fa-solid fa-robot"></i> ChatGPT
+                    <a href="https://chatgpt.com" target="_blank" class="quick-link" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); padding: 14px 8px; border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                        <i class="fa-solid fa-robot" style="color: var(--accent); font-size: 1.3rem;"></i> ChatGPT
                     </a>
-                    <a href="https://open.spotify.com/user/31igbari5ygn2duladt5i7oifiyy" target="_blank" class="quick-link">
-                        <i class="fa-brands fa-spotify"></i> Spotify
+                    <a href="https://open.spotify.com/user/31igbari5ygn2duladt5i7oifiyy" target="_blank" class="quick-link" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); padding: 14px 8px; border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                        <i class="fa-brands fa-spotify" style="color: var(--accent); font-size: 1.3rem;"></i> Spotify
                     </a>
                 </div>
             </div>
@@ -675,8 +646,8 @@
                     <a href="https://www.instagram.com/nneveerminddd/" target="_blank" class="social-btn" title="Priv Hesap"><i class="fa-solid fa-user-secret"></i></a>
                     <a href="https://open.spotify.com/user/31xoltkq72h2of6vwmqhpisr3m64?si=ccc05e38ab3744b5" target="_blank" class="social-btn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
                 `;
-                quickLinksCard.style.display = "none"; // Hızlı erişim menüsü tamamen gizlendi
-                princessBg.style.display = "block";    // Arka plan kayan yazıları aktifleşti
+                quickLinksCard.style.display = "none";
+                princessBg.style.display = "flex";    
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
@@ -731,13 +702,13 @@
 
         function updateCountdowns() {
             const now = new Date();
-            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); // 8 Mart 2027
+            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); 
             
             let dogumGunu;
             if (currentProfile === 'sultan') {
-                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0); // 9 Ağustos (Ağustos = 7)
+                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0); 
             } else {
-                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // 26 Eylül
+                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); 
             }
 
             if (now > dogumGunu) {
