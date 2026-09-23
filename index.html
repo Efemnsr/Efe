@@ -489,8 +489,8 @@
             <div class="card" id="social-card">
                 <h2><i class="fa-solid fa-share-nodes"></i> Sosyal Medya & Profil</h2>
                 <div style="display: flex; flex-direction: column; justify-content: center; height: calc(100% - 40px); gap: 10px;">
-                    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">Sosyal Medya Bağlantıları:</p>
-                    <div class="social-container">
+                    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;" id="social-subtitle">Sosyal Medya Bağlantıları:</p>
+                    <div class="social-container" id="social-links-container">
                         <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                         <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -591,6 +591,8 @@
             const subtitleEl = document.getElementById('header-subtitle');
             const dogumTitleEl = document.getElementById('title-dogum');
             const dogumInfoEl = document.getElementById('info-dogum');
+            const socialSubtitleEl = document.getElementById('social-subtitle');
+            const socialContainer = document.getElementById('social-links-container');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -601,18 +603,35 @@
                 subtitleEl.innerText = "Bilişim Sistemleri ve Teknolojileri • Kişisel Sistem";
                 dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
                 dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
+                socialSubtitleEl.innerText = "Sosyal Medya Bağlantıları:";
+                socialContainer.innerHTML = `
+                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                `;
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
                 titleEl.innerText = "Hoş Geldin Prenses ✨";
                 subtitleEl.innerText = "Yönetim Bilişim Sistemleri • Özel Ders Programı";
                 dogumTitleEl.innerText = "Doğum Günüm 🎂";
                 dogumInfoEl.innerText = "Doğum Tarihi: 09 Ağustos";
+                socialSubtitleEl.innerText = "İnstagram Hesaplarım:";
+                socialContainer.innerHTML = `
+                    <a href="https://www.instagram.com/sultansnrr/" target="_blank" class="social-btn" title="Ana Hesap"><i class="fa-solid fa-user"></i></a>
+                    <a href="https://www.instagram.com/nneveerminddd/" target="_blank" class="social-btn" title="Priv Hesap"><i class="fa-solid fa-user-secret"></i></a>
+                `;
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
                 subtitleEl.innerText = "Birlikte Yaşam ve Plan Alanı";
                 dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
                 dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
+                socialSubtitleEl.innerText = "Sosyal Medya Bağlantıları:";
+                socialContainer.innerHTML = `
+                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                `;
                 activeSchedule = efeSchedule;
             }
 
