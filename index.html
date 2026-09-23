@@ -35,7 +35,6 @@
             position: relative;
         }
 
-        /* Prenses Modu Kayan Arka Plan Yazıları - Tüm Ekranı Kaplar */
         #princess-bg-ticker {
             position: fixed;
             top: 0;
@@ -47,7 +46,6 @@
             overflow: hidden;
             display: none;
             opacity: 0.05;
-            display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
@@ -440,7 +438,6 @@
 </head>
 <body>
 
-    <!-- Prenses Modu Arka Plan Kayan Yazıları (Tüm Ekranı Kaplar) -->
     <div id="princess-bg-ticker">
         <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
         <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
@@ -494,8 +491,8 @@
                 <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
                 
                 <div class="countdown-item">
-                    <div class="countdown-title">Sevgili Olma Tarihi ❤️</div>
-                    <div class="event-date-info" id="info-sevgili">Başlangıç: 8 Mart 2026 (Yıl Dönümüne Kalan)</div>
+                    <div class="countdown-title" id="lbl-main-timer">Sevgili Olma Tarihi ❤️</div>
+                    <div class="event-date-info" id="info-sevgili">Başlangıç: 8 Mart 2026</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
@@ -518,6 +515,21 @@
                 </div>
             </div>
 
+            <!-- Ortak Özel: "Saat Kaçta Çıkacaksın?" Asistanı -->
+            <div class="card full-width" id="exit-assistant-card" style="display: none;">
+                <h2><i class="fa-solid fa-clock"></i> Bugün "Saat Kaçta Çıkacaksın?" Asistanı</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center; margin-top: 5px;">
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px; border-radius: 10px;">
+                        <div style="font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 6px;"><i class="fa-solid fa-user"></i> Efe (Bugün)</div>
+                        <div id="efe-today-status" style="font-size: 0.8rem; color: var(--text-main); line-height: 1.4;">Hesaplanıyor...</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px; border-radius: 10px;">
+                        <div style="font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 6px;"><i class="fa-solid fa-heart"></i> Prenses (Bugün)</div>
+                        <div id="prenses-today-status" style="font-size: 0.8rem; color: var(--text-main); line-height: 1.4;">Hesaplanıyor...</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card full-width" id="lessons-card">
                 <h2 id="lessons-title"><i class="fa-solid fa-graduation-cap"></i> Haftalık Ders Programı</h2>
                 <div class="table-responsive">
@@ -533,13 +545,12 @@
                             </tr>
                         </thead>
                         <tbody id="schedule-tbody">
-                            <!-- Dinamik olarak doldurulacak -->
+                            <!-- Dinamik doldurulacak -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Hızlı Erişim Kartı (Yalnızca Efe ve Ortak modlarında görünecek) -->
             <div class="card full-width" id="quick-links-card">
                 <h2><i class="fa-solid fa-bolt"></i> Hızlı Erişim</h2>
                 <div class="links-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
@@ -616,6 +627,8 @@
             const socialContainer = document.getElementById('social-links-container');
             const quickLinksCard = document.getElementById('quick-links-card');
             const princessBg = document.getElementById('princess-bg-ticker');
+            const exitAssistantCard = document.getElementById('exit-assistant-card');
+            const mainTimerLbl = document.getElementById('lbl-main-timer');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -634,6 +647,8 @@
                 `;
                 quickLinksCard.style.display = "block";
                 princessBg.style.display = "none";
+                exitAssistantCard.style.display = "none";
+                mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
                 titleEl.innerText = "Hoş Geldin Prenses ✨";
@@ -647,22 +662,27 @@
                     <a href="https://open.spotify.com/user/31xoltkq72h2of6vwmqhpisr3m64?si=ccc05e38ab3744b5" target="_blank" class="social-btn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
                 `;
                 quickLinksCard.style.display = "none";
-                princessBg.style.display = "flex";    
+                princessBg.style.display = "flex";
+                exitAssistantCard.style.display = "none";
+                mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
                 subtitleEl.innerText = "Birlikte Yaşam ve Plan Alanı";
                 dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
                 dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
-                socialSubtitleEl.innerText = "Sosyal Medya Bağlantıları:";
+                socialSubtitleEl.innerText = "Ortak / Sosyal Bağlantılar:";
                 socialContainer.innerHTML = `
-                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Efe Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/sultansnrr/" target="_blank" class="social-btn" title="Sultan Instagram"><i class="fa-solid fa-user"></i></a>
                     <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
                 `;
                 quickLinksCard.style.display = "block";
                 princessBg.style.display = "none";
+                exitAssistantCard.style.display = "block";
+                mainTimerLbl.innerText = "Birlikte Geçen Süremiz 💕";
                 activeSchedule = efeSchedule;
+                updateExitAssistant();
             }
 
             activeSchedule.forEach(row => {
@@ -700,47 +720,111 @@
             }, 50);
         }
 
+        function getDayScheduleInfo(schedule, dayIndex) {
+            let firstTime = null;
+            let lastTime = null;
+            schedule.forEach(row => {
+                let cell = row[dayIndex];
+                if (cell && cell !== "-") {
+                    let timePart = row[0].split(" - ");
+                    let start = timePart[0];
+                    let end = timePart[1];
+                    if (!firstTime) firstTime = start;
+                    lastTime = end;
+                }
+            });
+            return { first: firstTime, last: lastTime };
+        }
+
+        function updateExitAssistant() {
+            // JS getDay(): 0 Pazar, 1 Pzt, 2 Sal, 3 Çar, 4 Per, 5 Cum, 6 Cmt
+            let jsDay = new Date().getDay();
+            // Bizim tabloda: Pzt=1, Sal=2, Çar=3, Per=4, Cum=5
+            let tableDayIndex = jsDay; // Pazartesi=1 ... Cuma=5
+
+            if (tableDayIndex < 1 || tableDayIndex > 5) {
+                document.getElementById('efe-today-status').innerText = "Bugün hafta sonu, ders yok! 🎉";
+                document.getElementById('prenses-today-status').innerText = "Bugün hafta sonu, ders yok! 🎉";
+                return;
+            }
+
+            let efeInfo = getDayScheduleInfo(efeSchedule, tableDayIndex);
+            let prensesInfo = getDayScheduleInfo(prensesSchedule, tableDayIndex);
+
+            let efeText = efeInfo.first ? `İlk Ders: ${efeInfo.first}<br>Son Çıkış: <b>${efeInfo.last}</b>` : "Bugün dersi yok 😊";
+            let prensesText = prensesInfo.first ? `İlk Ders: ${prensesInfo.first}<br>Son Çıkış: <b>${prensesInfo.last}</b>` : "Bugün dersi yok 😊";
+
+            document.getElementById('efe-today-status').innerHTML = efeText;
+            document.getElementById('prenses-today-status').innerHTML = prensesText;
+        }
+
         function updateCountdowns() {
             const now = new Date();
-            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); 
-            
+            const startDate = new Date(2026, 2, 8, 0, 0, 0); // 8 Mart 2026
+
+            if (currentProfile === 'ortak') {
+                const diff = now - startDate;
+                if (diff > 0) {
+                    const secondsTotal = Math.floor(diff / 1000);
+                    const minutesTotal = Math.floor(secondsTotal / 60);
+                    const hoursTotal = Math.floor(minutesTotal / 60);
+                    const daysTotal = Math.floor(hoursTotal / 24);
+
+                    let years = now.getFullYear() - startDate.getFullYear();
+                    let months = now.getMonth() - startDate.getMonth();
+                    let days = now.getDate() - startDate.getDate();
+
+                    if (days < 0) {
+                        months--;
+                        let prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                        days += prevMonth.getDate();
+                    }
+                    if (months < 0) {
+                        years--;
+                        months += 12;
+                    }
+
+                    const remHours = hoursTotal % 24;
+                    const remMinutes = minutesTotal % 60;
+                    const remSeconds = secondsTotal % 60;
+
+                    document.getElementById('info-sevgili').innerText = `8 Mart 2026'dan Beri`;
+                    document.getElementById('timer-sevgili').innerHTML = 
+                        `${years} yıl, ${months} ay, ${days} gün<br>${remHours} saat ${remMinutes} dk ${remSeconds} sn`;
+                }
+            } else {
+                let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0);
+                const diff = sonrakiYilDonumu - now;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('info-sevgili').innerText = `Başlangıç: 8 Mart 2026 (Yıl Dönümüne Kalan)`;
+                document.getElementById('timer-sevgili').innerText = `${days} gün ${hours} saat ${minutes} dk ${seconds} sn`;
+            }
+
             let dogumGunu;
             if (currentProfile === 'sultan') {
-                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0); 
+                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0);
             } else {
-                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); 
+                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0);
             }
 
             if (now > dogumGunu) {
                 dogumGunu.setFullYear(now.getFullYear() + 1);
             }
 
-            const events = [
-                { id: 'timer-sevgili', date: sonrakiYilDonumu },
-                { id: 'timer-dogum', date: dogumGunu }
-            ];
+            const dogumDiff = dogumGunu - now;
+            const dDays = Math.floor(dogumDiff / (1000 * 60 * 60 * 24));
+            const dHours = Math.floor((dogumDiff / (1000 * 60 * 60)) % 24);
+            const dMins = Math.floor((dogumDiff / 1000 / 60) % 60);
+            const dSecs = Math.floor((dogumDiff / 1000) % 60);
 
-            events.forEach(ev => {
-                const diff = ev.date - now;
-                const element = document.getElementById(ev.id);
-                if(!element) return;
-
-                if (diff <= 0) {
-                    element.innerHTML = "Bugün!";
-                    return;
-                }
-
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                element.innerHTML = `${days} gün, ${hours} saat, ${minutes} dk, ${seconds} sn`;
-            });
+            document.getElementById('timer-dogum').innerText = `${dDays} gün ${dHours} saat ${dMins} dk ${dSecs} sn`;
         }
 
         setInterval(updateCountdowns, 1000);
-        updateCountdowns();
     </script>
 </body>
 </html>
