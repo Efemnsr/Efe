@@ -501,6 +501,13 @@
                     <div class="event-date-info" id="info-dogum">Doğum Tarihi: 26 Eylül</div>
                     <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
                 </div>
+
+                <!-- Ortak Mod İçin Efe'nin Doğum Günü Kutusu -->
+                <div class="countdown-item" id="efe-dogum-countdown-item" style="display: none;">
+                    <div class="countdown-title">Benim Doğum Günüm 🥳</div>
+                    <div class="event-date-info" id="info-efe-dogum">Doğum Tarihi: 9 Ağustos</div>
+                    <div class="countdown-timer" id="timer-efe-dogum">Hesaplanıyor...</div>
+                </div>
             </div>
 
             <div class="card" id="social-card">
@@ -628,6 +635,7 @@
             const exitAssistantCard = document.getElementById('exit-assistant-card');
             const mainTimerLbl = document.getElementById('lbl-main-timer');
             const dogumCardItem = document.getElementById('dogum-countdown-item');
+            const efeDogumCardItem = document.getElementById('efe-dogum-countdown-item');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -642,6 +650,7 @@
                 princessBg.style.display = "none";
                 exitAssistantCard.style.display = "none";
                 dogumCardItem.style.display = "block";
+                efeDogumCardItem.style.display = "none";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
@@ -653,6 +662,7 @@
                 princessBg.style.display = "flex";
                 exitAssistantCard.style.display = "none";
                 dogumCardItem.style.display = "block";
+                efeDogumCardItem.style.display = "none";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
@@ -663,7 +673,8 @@
                 lessonsCard.style.display = "none";
                 princessBg.style.display = "none";
                 exitAssistantCard.style.display = "block";
-                dogumCardItem.style.display = "none"; // Sadece 8 Mart süresi kalsın diye doğum gününü gizledik
+                dogumCardItem.style.display = "block"; // Sevgilinin doğum günü
+                efeDogumCardItem.style.display = "block"; // Senin doğum günün
                 mainTimerLbl.innerText = "Birlikte Geçen Süremiz 💕";
                 updateExitAssistant();
             }
@@ -774,6 +785,31 @@
                     document.getElementById('timer-sevgili').innerHTML = 
                         `${years} yıl, ${months} ay, ${days} gün<br>${remHours} saat ${remMinutes} dk ${remSeconds} sn`;
                 }
+
+                // Sevgilinin Doğum Günü (26 Eylül)
+                let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0);
+                if (now > dogumGunu) {
+                    dogumGunu.setFullYear(now.getFullYear() + 1);
+                }
+                const dogumDiff = dogumGunu - now;
+                const dDays = Math.floor(dogumDiff / (1000 * 60 * 60 * 24));
+                const dHours = Math.floor((dogumDiff / (1000 * 60 * 60)) % 24);
+                const dMins = Math.floor((dogumDiff / 1000 / 60) % 60);
+                const dSecs = Math.floor((dogumDiff / 1000) % 60);
+                document.getElementById('timer-dogum').innerText = `${dDays} gün ${dHours} saat ${dMins} dk ${dSecs} sn`;
+
+                // Senin Doğum Günün (9 Ağustos)
+                let efeDogum = new Date(now.getFullYear(), 7, 9, 0, 0, 0);
+                if (now > efeDogum) {
+                    efeDogum.setFullYear(now.getFullYear() + 1);
+                }
+                const efeDogumDiff = efeDogum - now;
+                const eDays = Math.floor(efeDogumDiff / (1000 * 60 * 60 * 24));
+                const eHours = Math.floor((efeDogumDiff / (1000 * 60 * 60)) % 24);
+                const eMins = Math.floor((efeDogumDiff / 1000 / 60) % 60);
+                const eSecs = Math.floor((efeDogumDiff / 1000) % 60);
+                document.getElementById('timer-efe-dogum').innerText = `${eDays} gün ${eHours} saat ${eMins} dk ${eSecs} sn`;
+
             } else {
                 let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0);
                 const diff = sonrakiYilDonumu - now;
