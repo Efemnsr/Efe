@@ -32,6 +32,41 @@
             min-height: 100vh;
             overflow-x: hidden;
             font-size: 16px;
+            position: relative;
+        }
+
+        /* Prenses Modu Kayan Arka Plan Yazıları */
+        #princess-bg-ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            display: none;
+            opacity: 0.05; /* Arka planda hafif ve şık durması için */
+        }
+
+        .ticker-row {
+            white-space: nowrap;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            animation: tickerScroll 25s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .ticker-row:nth-child(even) {
+            animation-direction: reverse;
+            animation-duration: 30s;
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         #splash-screen {
@@ -167,6 +202,8 @@
             margin: 0 auto;
             padding: 15px 8px;
             display: none;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -436,6 +473,18 @@
 </head>
 <body>
 
+    <!-- Prenses Modu Arka Plan Kayan Yazıları -->
+    <div id="princess-bg-ticker">
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+        <div class="ticker-row">Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • Seni çok seviyorum kurban olduğum • </div>
+    </div>
+
     <div id="splash-screen" onclick="showSelector()">
         <div class="splash-content">
             <h1>Hoş Geldin, Efe</h1>
@@ -519,6 +568,7 @@
                 </div>
             </div>
 
+            <!-- Hızlı Erişim Kartı (Yalnızca Efe ve Ortak modlarında görünecek) -->
             <div class="card full-width" id="quick-links-card">
                 <h2><i class="fa-solid fa-bolt"></i> Hızlı Erişim</h2>
                 <div class="links-grid">
@@ -593,6 +643,8 @@
             const dogumInfoEl = document.getElementById('info-dogum');
             const socialSubtitleEl = document.getElementById('social-subtitle');
             const socialContainer = document.getElementById('social-links-container');
+            const quickLinksCard = document.getElementById('quick-links-card');
+            const princessBg = document.getElementById('princess-bg-ticker');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -609,6 +661,8 @@
                     <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                     <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
                 `;
+                quickLinksCard.style.display = "block";
+                princessBg.style.display = "none";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
                 titleEl.innerText = "Hoş Geldin Prenses ✨";
@@ -621,6 +675,8 @@
                     <a href="https://www.instagram.com/nneveerminddd/" target="_blank" class="social-btn" title="Priv Hesap"><i class="fa-solid fa-user-secret"></i></a>
                     <a href="https://open.spotify.com/user/31xoltkq72h2of6vwmqhpisr3m64?si=ccc05e38ab3744b5" target="_blank" class="social-btn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
                 `;
+                quickLinksCard.style.display = "none"; // Hızlı erişim menüsü tamamen gizlendi
+                princessBg.style.display = "block";    // Arka plan kayan yazıları aktifleşti
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
@@ -633,6 +689,8 @@
                     <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                     <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
                 `;
+                quickLinksCard.style.display = "block";
+                princessBg.style.display = "none";
                 activeSchedule = efeSchedule;
             }
 
