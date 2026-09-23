@@ -496,7 +496,7 @@
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
                 </div>
 
-                <div class="countdown-item">
+                <div class="countdown-item" id="dogum-countdown-item">
                     <div class="countdown-title" id="title-dogum">Sevgilimin Doğum Günü 🎂</div>
                     <div class="event-date-info" id="info-dogum">Doğum Tarihi: 26 Eylül</div>
                     <div class="countdown-timer" id="timer-dogum">Hesaplanıyor...</div>
@@ -621,14 +621,13 @@
 
             const titleEl = document.getElementById('header-title');
             const subtitleEl = document.getElementById('header-subtitle');
-            const dogumTitleEl = document.getElementById('title-dogum');
-            const dogumInfoEl = document.getElementById('info-dogum');
-            const socialSubtitleEl = document.getElementById('social-subtitle');
-            const socialContainer = document.getElementById('social-links-container');
+            const socialCard = document.getElementById('social-card');
             const quickLinksCard = document.getElementById('quick-links-card');
+            const lessonsCard = document.getElementById('lessons-card');
             const princessBg = document.getElementById('princess-bg-ticker');
             const exitAssistantCard = document.getElementById('exit-assistant-card');
             const mainTimerLbl = document.getElementById('lbl-main-timer');
+            const dogumCardItem = document.getElementById('dogum-countdown-item');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -637,77 +636,63 @@
             if (profile === 'efe') {
                 titleEl.innerText = "Efe Mansuroğlu";
                 subtitleEl.innerText = "Bilişim Sistemleri ve Teknolojileri • Kişisel Sistem";
-                dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
-                dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
-                socialSubtitleEl.innerText = "Sosyal Medya Bağlantıları:";
-                socialContainer.innerHTML = `
-                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/efe-mansuroğlu-298974371" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
-                `;
+                socialCard.style.display = "block";
                 quickLinksCard.style.display = "block";
+                lessonsCard.style.display = "block";
                 princessBg.style.display = "none";
                 exitAssistantCard.style.display = "none";
+                dogumCardItem.style.display = "block";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
                 titleEl.innerText = "Hoş Geldin Prenses ✨";
                 subtitleEl.innerText = "Yönetim Bilişim Sistemleri • Özel Ders Programı";
-                dogumTitleEl.innerText = "Doğum Günüm 🎂";
-                dogumInfoEl.innerText = "Doğum Tarihi: 09 Ağustos";
-                socialSubtitleEl.innerText = "Sosyal Medya & Müzik Hesaplarım:";
-                socialContainer.innerHTML = `
-                    <a href="https://www.instagram.com/sultansnrr/" target="_blank" class="social-btn" title="Ana Hesap"><i class="fa-solid fa-user"></i></a>
-                    <a href="https://www.instagram.com/nneveerminddd/" target="_blank" class="social-btn" title="Priv Hesap"><i class="fa-solid fa-user-secret"></i></a>
-                    <a href="https://open.spotify.com/user/31xoltkq72h2of6vwmqhpisr3m64?si=ccc05e38ab3744b5" target="_blank" class="social-btn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
-                `;
+                socialCard.style.display = "block";
                 quickLinksCard.style.display = "none";
+                lessonsCard.style.display = "block";
                 princessBg.style.display = "flex";
                 exitAssistantCard.style.display = "none";
+                dogumCardItem.style.display = "block";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
                 titleEl.innerText = "Ortak Kontrol Paneli";
                 subtitleEl.innerText = "Birlikte Yaşam ve Plan Alanı";
-                dogumTitleEl.innerText = "Sevgilimin Doğum Günü 🎂";
-                dogumInfoEl.innerText = "Doğum Tarihi: 26 Eylül";
-                socialSubtitleEl.innerText = "Ortak / Sosyal Bağlantılar:";
-                socialContainer.innerHTML = `
-                    <a href="https://instagram.com/efedev0x" target="_blank" class="social-btn" title="Efe Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.instagram.com/sultansnrr/" target="_blank" class="social-btn" title="Sultan Instagram"><i class="fa-solid fa-user"></i></a>
-                    <a href="https://github.com/Efemnsr" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
-                `;
-                quickLinksCard.style.display = "block";
+                socialCard.style.display = "none";
+                quickLinksCard.style.display = "none";
+                lessonsCard.style.display = "none";
                 princessBg.style.display = "none";
                 exitAssistantCard.style.display = "block";
+                dogumCardItem.style.display = "none"; // Sadece 8 Mart süresi kalsın diye doğum gününü gizledik
                 mainTimerLbl.innerText = "Birlikte Geçen Süremiz 💕";
-                activeSchedule = efeSchedule;
                 updateExitAssistant();
             }
 
-            activeSchedule.forEach(row => {
-                let tr = document.createElement('tr');
-                row.forEach((cellData, index) => {
-                    let td = document.createElement('td');
-                    if (index === 0) {
-                        td.innerText = cellData;
-                        td.style.fontWeight = "600";
-                        td.style.color = "var(--text-muted)";
-                        td.style.fontSize = "0.55rem";
-                    } else if (cellData === "-") {
-                        td.innerText = "-";
-                        td.style.textAlign = "center";
-                        td.style.color = "var(--text-muted)";
-                    } else {
-                        let div = document.createElement('div');
-                        div.className = "lesson-cell";
-                        div.innerHTML = `<div class="lesson-name">${cellData}</div>`;
-                        td.appendChild(div);
-                    }
-                    tr.appendChild(td);
+            if (profile !== 'ortak') {
+                activeSchedule.forEach(row => {
+                    let tr = document.createElement('tr');
+                    row.forEach((cellData, index) => {
+                        let td = document.createElement('td');
+                        if (index === 0) {
+                            td.innerText = cellData;
+                            td.style.fontWeight = "600";
+                            td.style.color = "var(--text-muted)";
+                            td.style.fontSize = "0.55rem";
+                        } else if (cellData === "-") {
+                            td.innerText = "-";
+                            td.style.textAlign = "center";
+                            td.style.color = "var(--text-muted)";
+                        } else {
+                            let div = document.createElement('div');
+                            div.className = "lesson-cell";
+                            div.innerHTML = `<div class="lesson-name">${cellData}</div>`;
+                            td.appendChild(div);
+                        }
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
                 });
-                tbody.appendChild(tr);
-            });
+            }
             updateCountdowns();
         }
 
@@ -737,10 +722,8 @@
         }
 
         function updateExitAssistant() {
-            // JS getDay(): 0 Pazar, 1 Pzt, 2 Sal, 3 Çar, 4 Per, 5 Cum, 6 Cmt
             let jsDay = new Date().getDay();
-            // Bizim tabloda: Pzt=1, Sal=2, Çar=3, Per=4, Cum=5
-            let tableDayIndex = jsDay; // Pazartesi=1 ... Cuma=5
+            let tableDayIndex = jsDay;
 
             if (tableDayIndex < 1 || tableDayIndex > 5) {
                 document.getElementById('efe-today-status').innerText = "Bugün hafta sonu, ders yok! 🎉";
@@ -768,7 +751,6 @@
                     const secondsTotal = Math.floor(diff / 1000);
                     const minutesTotal = Math.floor(secondsTotal / 60);
                     const hoursTotal = Math.floor(minutesTotal / 60);
-                    const daysTotal = Math.floor(hoursTotal / 24);
 
                     let years = now.getFullYear() - startDate.getFullYear();
                     let months = now.getMonth() - startDate.getMonth();
@@ -802,26 +784,26 @@
 
                 document.getElementById('info-sevgili').innerText = `Başlangıç: 8 Mart 2026 (Yıl Dönümüne Kalan)`;
                 document.getElementById('timer-sevgili').innerText = `${days} gün ${hours} saat ${minutes} dk ${seconds} sn`;
+
+                let dogumGunu;
+                if (currentProfile === 'sultan') {
+                    dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0);
+                } else {
+                    dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0);
+                }
+
+                if (now > dogumGunu) {
+                    dogumGunu.setFullYear(now.getFullYear() + 1);
+                }
+
+                const dogumDiff = dogumGunu - now;
+                const dDays = Math.floor(dogumDiff / (1000 * 60 * 60 * 24));
+                const dHours = Math.floor((dogumDiff / (1000 * 60 * 60)) % 24);
+                const dMins = Math.floor((dogumDiff / 1000 / 60) % 60);
+                const dSecs = Math.floor((dogumDiff / 1000) % 60);
+
+                document.getElementById('timer-dogum').innerText = `${dDays} gün ${dHours} saat ${dMins} dk ${dSecs} sn`;
             }
-
-            let dogumGunu;
-            if (currentProfile === 'sultan') {
-                dogumGunu = new Date(now.getFullYear(), 7, 9, 0, 0, 0);
-            } else {
-                dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0);
-            }
-
-            if (now > dogumGunu) {
-                dogumGunu.setFullYear(now.getFullYear() + 1);
-            }
-
-            const dogumDiff = dogumGunu - now;
-            const dDays = Math.floor(dogumDiff / (1000 * 60 * 60 * 24));
-            const dHours = Math.floor((dogumDiff / (1000 * 60 * 60)) % 24);
-            const dMins = Math.floor((dogumDiff / 1000 / 60) % 60);
-            const dSecs = Math.floor((dogumDiff / 1000) % 60);
-
-            document.getElementById('timer-dogum').innerText = `${dDays} gün ${dHours} saat ${dMins} dk ${dSecs} sn`;
         }
 
         setInterval(updateCountdowns, 1000);
