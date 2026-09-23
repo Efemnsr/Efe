@@ -276,7 +276,6 @@
             font-weight: 700;
         }
 
-        /* Ekranı kaydırmadan tam oturan tablo yapısı */
         .table-responsive {
             width: 100%;
             overflow-x: hidden;
@@ -561,7 +560,7 @@
             ["11:30 - 12:10", "BİLGİ TEKNOLOJİ<br><span class='lesson-loc'>LAB4</span>", "VERİ YAPILARI<br><span class='lesson-loc'>LAB4</span>", "VERİ YAPILARI<br><span class='lesson-loc'>LAB4</span>", "-", "İNGİLİZCE I<br><span class='lesson-loc'>AKILLI SINIF</span>"],
             ["13:00 - 13:40", "-", "-", "MALİYET MUH.<br><span class='lesson-loc'>D16</span>", "YÖN. VE ORG.<br><span class='lesson-loc'>D16</span>", "-"],
             ["13:50 - 14:30", "-", "-", "MALİYET MUH.<br><span class='lesson-loc'>D16</span>", "YÖN. VE ORG.<br><span class='lesson-loc'>D16</span>", "-"],
-            ["14:40 - 15:20", "TEK. VE TOPLUM<br><span class='lesson-loc'>D17</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "MALİYET MUH.<br><span class='lesson-loc'>D16</span>", "KARİYER PL.v<br><span class='lesson-loc'>D16</span>", "-"],
+            ["14:40 - 15:20", "TEK. VE TOPLUM<br><span class='lesson-loc'>D17</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "MALİYET MUH.<br><span class='lesson-loc'>D16</span>", "KARİYER PL.<br><span class='lesson-loc'>D16</span>", "-"],
             ["15:30 - 16:10", "TEK. VE TOPLUM<br><span class='lesson-loc'>D17</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "-", "-", "-"],
             ["16:20 - 17:00", "İŞ SAĞ. VE GÜV.<br><span class='lesson-loc'>D16</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "-", "-", "-"],
             ["17:10 - 17:50", "İŞ SAĞ. VE GÜV.<br><span class='lesson-loc'>D16</span>", "-", "-", "-", "DİJİTAL MEDYA<br><span class='lesson-loc'>OSD24</span>"],
@@ -642,8 +641,8 @@
 
         function updateCountdowns() {
             const now = new Date();
-            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0);
-            let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0);
+            let sonrakiYilDonumu = new Date(2027, 2, 8, 0, 0, 0); // 8 Mart 2027
+            let dogumGunu = new Date(now.getFullYear(), 8, 26, 0, 0, 0); // 26 Eylül
             if (now > dogumGunu) {
                 dogumGunu.setFullYear(now.getFullYear() + 1);
             }
