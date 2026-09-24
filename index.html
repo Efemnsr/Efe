@@ -602,8 +602,8 @@
             ["14:40 - 15:20", "TEK. VE TOPLUM<br><span class='lesson-loc'>D17</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "MALİYET MUH.<br><span class='lesson-loc'>D16</span>", "KARİYER PL.<br><span class='lesson-loc'>D16</span>", "-"],
             ["15:30 - 16:10", "TEK. VE TOPLUM<br><span class='lesson-loc'>D17</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "-", "-", "-"],
             ["16:20 - 17:00", "İŞ SAĞ. VE GÜV.<br><span class='lesson-loc'>D16</span>", "İSTATİSTİK I<br><span class='lesson-loc'>D17</span>", "-", "-", "-"],
-            ["17:10 - 17:50", "İŞ SAĞ. VE GÜV.<br><span class='lesson-loc'>D16</span>", "-", "-", "-", "DİJİTAL MEDYA<br><span class='lesson-loc'>OSD24</span>"],
-            ["18:00 - 18:40", "-", "-", "-", "-", "DİJİTAL MEDYA<br><span class='lesson-loc'>OSD24</span>"]
+            ["17:10 - 17:50", "İŞ SAĞ. VE GÜV.<br><span class='lesson-loc'>D16</span>", "-", "-", "-", "DİJİTAL MEDYA (Online)<br><span class='lesson-loc'>OSD24</span>"],
+            ["18:00 - 18:40", "-", "-", "-", "-", "DİJİTAL MEDYA (Online)<br><span class='lesson-loc'>OSD24</span>"]
         ];
 
         let currentProfile = 'efe';
@@ -716,12 +716,16 @@
             }, 50);
         }
 
-        function getDayScheduleInfo(schedule, dayIndex) {
+        function getDayScheduleInfo(schedule, dayIndex, isPrenses = false) {
             let firstTime = null;
             let lastTime = null;
             schedule.forEach(row => {
                 let cell = row[dayIndex];
                 if (cell && cell !== "-") {
+                    // Eğer prensesin programıysa ve gün Cuma (index 5) ise, Dijital Medya online dersini çıkış saatinden hariç tut
+                    if (isPrenses && dayIndex === 5 && (row[0].startsWith("17:10") || row[0].startsWith("18:00"))) {
+                        return; 
+                    }
                     let timePart = row[0].split(" - ");
                     let start = timePart[0];
                     let end = timePart[1];
@@ -742,8 +746,8 @@
                 return;
             }
 
-            let efeInfo = getDayScheduleInfo(efeSchedule, tableDayIndex);
-            let prensesInfo = getDayScheduleInfo(prensesSchedule, tableDayIndex);
+            let efeInfo = getDayScheduleInfo(efeSchedule, tableDayIndex, false);
+            let prensesInfo = getDayScheduleInfo(prensesSchedule, tableDayIndex, true);
 
             let efeText = efeInfo.first ? `İlk Ders: ${efeInfo.first}<br>Son Çıkış: <b>${efeInfo.last}</b>` : "Bugün dersi yok 😊";
             let prensesText = prensesInfo.first ? `İlk Ders: ${prensesInfo.first}<br>Son Çıkış: <b>${prensesInfo.last}</b>` : "Bugün dersi yok 😊";
