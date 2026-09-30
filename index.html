@@ -491,17 +491,9 @@
                 <h2><i class="fa-solid fa-hourglass-half"></i> Özel Günler & Geri Sayım</h2>
                 
                 <div class="countdown-item">
-                    <div class="countdown-title" id="lbl-main-timer">Birlikte Geçen Süremiz 💕</div>
-                    <div class="event-date-info" id="info-sevgili">8 Mart 2026 - 29 Eylül 2026 (20:06'da Sabitlendi)</div>
+                    <div class="countdown-title" id="lbl-main-timer">Sevgili Olma Tarihi ❤️</div>
+                    <div class="event-date-info" id="info-sevgili">Başlangıç: 8 Mart 2026</div>
                     <div class="countdown-timer" id="timer-sevgili">Hesaplanıyor...</div>
-                </div>
-
-                <!-- Ortak Mod İçin Devam Etme Notu -->
-                <div class="countdown-item" id="relationship-note-item" style="display: none; background: rgba(245, 158, 11, 0.05); border-color: var(--accent);">
-                    <div class="countdown-title" style="color: var(--accent);"><i class="fa-solid fa-heart-pulse"></i> Yeniden Başlangıç Notu</div>
-                    <div style="font-size: 0.8rem; color: var(--text-main); margin-top: 6px; line-height: 1.4;">
-                        "Aramızdaki bu kısa kesinti sadece bir mola. Bu ilişkiye inanıyorum, değer veriyorum ve kaldığı yerden, daha güçlü bir şekilde devam etmek istiyorum." ✨
-                    </div>
                 </div>
 
                 <div class="countdown-item" id="dogum-countdown-item">
@@ -644,7 +636,6 @@
             const mainTimerLbl = document.getElementById('lbl-main-timer');
             const dogumCardItem = document.getElementById('dogum-countdown-item');
             const efeDogumCardItem = document.getElementById('efe-dogum-countdown-item');
-            const noteItem = document.getElementById('relationship-note-item');
             const tbody = document.getElementById('schedule-tbody');
             tbody.innerHTML = "";
 
@@ -660,7 +651,6 @@
                 exitAssistantCard.style.display = "none";
                 dogumCardItem.style.display = "block";
                 efeDogumCardItem.style.display = "none";
-                noteItem.style.display = "none";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = efeSchedule;
             } else if (profile === 'sultan') {
@@ -673,7 +663,6 @@
                 exitAssistantCard.style.display = "none";
                 dogumCardItem.style.display = "block";
                 efeDogumCardItem.style.display = "none";
-                noteItem.style.display = "none";
                 mainTimerLbl.innerText = "Sevgili Olma Tarihi ❤️";
                 activeSchedule = prensesSchedule;
             } else if (profile === 'ortak') {
@@ -684,9 +673,8 @@
                 lessonsCard.style.display = "none";
                 princessBg.style.display = "none";
                 exitAssistantCard.style.display = "block";
-                dogumCardItem.style.display = "block"; 
-                efeDogumCardItem.style.display = "block"; 
-                noteItem.style.display = "block"; // Ortak modda devam etme notu görünür
+                dogumCardItem.style.display = "block"; // Sevgilinin doğum günü
+                efeDogumCardItem.style.display = "block"; // Senin doğum günün
                 mainTimerLbl.innerText = "Birlikte Geçen Süremiz 💕";
                 updateExitAssistant();
             }
@@ -734,6 +722,7 @@
             schedule.forEach(row => {
                 let cell = row[dayIndex];
                 if (cell && cell !== "-") {
+                    // Eğer prensesin programıysa ve gün Cuma (index 5) ise, Dijital Medya online dersini çıkış saatinden hariç tut
                     if (isPrenses && dayIndex === 5 && (row[0].startsWith("17:10") || row[0].startsWith("18:00"))) {
                         return; 
                     }
@@ -772,22 +761,19 @@
             const startDate = new Date(2026, 2, 8, 0, 0, 0); // 8 Mart 2026
 
             if (currentProfile === 'ortak') {
-                // Sayaç 29 Eylül 2026, 20:06'da sabitlendi
-                const freezeDate = new Date(2026, 8, 29, 20, 6, 0);
-                const diff = freezeDate - startDate;
-                
+                const diff = now - startDate;
                 if (diff > 0) {
                     const secondsTotal = Math.floor(diff / 1000);
                     const minutesTotal = Math.floor(secondsTotal / 60);
                     const hoursTotal = Math.floor(minutesTotal / 60);
 
-                    let years = freezeDate.getFullYear() - startDate.getFullYear();
-                    let months = freezeDate.getMonth() - startDate.getMonth();
-                    let days = freezeDate.getDate() - startDate.getDate();
+                    let years = now.getFullYear() - startDate.getFullYear();
+                    let months = now.getMonth() - startDate.getMonth();
+                    let days = now.getDate() - startDate.getDate();
 
                     if (days < 0) {
                         months--;
-                        let prevMonth = new Date(freezeDate.getFullYear(), freezeDate.getMonth(), 0);
+                        let prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                         days += prevMonth.getDate();
                     }
                     if (months < 0) {
@@ -799,7 +785,7 @@
                     const remMinutes = minutesTotal % 60;
                     const remSeconds = secondsTotal % 60;
 
-                    document.getElementById('info-sevgili').innerText = `8 Mart 2026 - 29 Eylül 2026 (Sabitlendi)`;
+                    document.getElementById('info-sevgili').innerText = `8 Mart 2026'dan Beri`;
                     document.getElementById('timer-sevgili').innerHTML = 
                         `${years} yıl, ${months} ay, ${days} gün<br>${remHours} saat ${remMinutes} dk ${remSeconds} sn`;
                 }
